@@ -1,0 +1,23 @@
+syntax="proto3";
+
+option java_package = "com.anikettcodes.proto";
+option java_multiple_files = true;
+
+message GetRequest{
+ string key = 1;
+}
+
+message  GetResponse{
+  bool status = 1;
+  bytes value = 2;
+}
+
+message PutRequest{}
+
+message PutResponse{}
+
+
+service CacheService{
+  rpc get(GetRequest) returns (GetResponse);
+  rpc put(PutRequest) returns (PutResponse);
+}

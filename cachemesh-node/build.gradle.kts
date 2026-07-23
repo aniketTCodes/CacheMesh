@@ -1,25 +1,29 @@
 plugins {
-    id("java")
+	java
+	id("org.springframework.boot") version "4.1.0"
+	id("io.spring.dependency-management") version "1.1.7"
+	id("com.google.protobuf") version "0.9.6"
 }
 
-java{
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of((property("javaVersion") as String)))
-    }
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
 }
+
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.10.0"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    implementation(project(":cachemesh-proto"))
-
-    runtimeOnly("io.grpc:grpc-netty-shaded:1.82.1")
-    implementation("io.grpc:grpc-protobuf:1.82.1")
-    implementation("io.grpc:grpc-stub:1.82.1")
-    implementation("javax.annotation:javax.annotation-api:1.3.2")
-
+	implementation("org.springframework.boot:spring-boot-starter-grpc-server")
+	compileOnly("org.projectlombok:lombok")
+	annotationProcessor("org.projectlombok:lombok")
+	testImplementation("org.springframework.boot:spring-boot-starter-grpc-server-test")
+	testCompileOnly("org.projectlombok:lombok")
+	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	testAnnotationProcessor("org.projectlombok:lombok")
+	implementation(project(":cachemesh-proto"))
 }
 
-tasks.test {
-    useJUnitPlatform()
+tasks.withType<Test> {
+	useJUnitPlatform()
 }
